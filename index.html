@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>RATP API</title>
 	<link rel="stylesheet" href="css/styles.css">
 	<script src="js/utils.js"></script>
 	<script src="js/init.js"></script>
 </head>
 <body>
-	<header>
-		<div id="breadcrumb">Next departure of <span class="breadcrumb-busline"></span> at <span class="breadcrumb-station"></span></div>
-	</header>
 	<main>
+		<header>
+			<p class="error"></p>
+			<div id="breadcrumb">Next departure of <span class="breadcrumb-busline"></span> at <span class="breadcrumb-station"></span></div>
+		</header>
 		<div id="main">
-		<!-- ADD error bloc -->
 			<div id="nextSchedule"></div>
 			<div id="otherSchedule">Next <span class="schedule-other"></span></div>
 		</div>
