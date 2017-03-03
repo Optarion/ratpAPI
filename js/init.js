@@ -49,15 +49,15 @@ document.addEventListener('DOMContentLoaded',function(){
 	}
 
 	try{
-		var defaultLineType = "bu",
+		var defaultLineType = "bus",
 			defaultLineId = "83",
 			defaultStation = "4008",
-			defaultDestination = "248";
+			defaultDestination = "248",
+			defaultURL = buildURL(defaultLineType, defaultLineId, defaultStation,defaultDestination);
 
 		//Default display
-		loadXMLDoc("https://api-ratp.pierre-grimaud.fr/v2/" + defaultLineType + "/" + defaultLineId + "/stations/" + defaultStation + "?destination=" + defaultDestination);
+		loadXMLDoc(defaultURL);
 
-		//TODO: make function to construct url
 	} 
 	catch (e) {
 		console.error(e.message);
