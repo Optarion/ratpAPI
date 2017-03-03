@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded',function(){
 
-function connectionError(message) {
-  this.name = 'connectionError';
-  this.message = message || 'The API server seems offline or you made a bad request';
-  this.stack = (new Error()).stack;
-}
-connectionError.prototype = Object.create(Error.prototype);
-connectionError.prototype.constructor = connectionError;
+	function connectionError(message) {
+		this.name = 'connectionError';
+		this.message = message || 'The API server seems offline or you made a bad request';
+		this.stack = (new Error()).stack;
+	}
+	connectionError.prototype = Object.create(Error.prototype);
+	connectionError.prototype.constructor = connectionError;
 
-	try{
-		function loadXMLDoc(url) {
-			var xmlhttp = new XMLHttpRequest();
+	function loadXMLDoc(url) {
+		var xmlhttp = new XMLHttpRequest();
 
-			xmlhttp.onreadystatechange = function() {
+		xmlhttp.onreadystatechange = function() {
+			try{
 				if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
 					if (xmlhttp.status == 200) {
 						var data = JSON.parse(xmlhttp.response),
@@ -33,20 +33,33 @@ connectionError.prototype.constructor = connectionError;
 					}
 					else {
 						throw new connectionError("The API server seems offline or you made a bad request");
-						document.getElementByClassName("error").innerHTML = 'Un problème technique empèche d\'obtenir les horaires désirés';
 					}
 				}
-			};
+			}
+			catch (e) {
+				console.error(e.message);
+				if(e.name == 'connectionError') {
+					document.querySelector(".error").innerHTML = 'Un problème technique empèche d\'obtenir les horaires désirés';
+				}
+			}
+		};
 
-			xmlhttp.open("GET", url, true);
-			xmlhttp.send();
-		}
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+	}
 
-	//Default display
-	loadXMLDoc('https://api-ratp.pierre-grimaud.fr/v2/bus/83/stations/4008?destination=248');
+	try{
+		var defaultLineType = "bu",
+			defaultLineId = "83",
+			defaultStation = "4008",
+			defaultDestination = "248";
 
-	//TODO: make function to construct url
-	} catch (e) {
-		console.error(e);
+		//Default display
+		loadXMLDoc("https://api-ratp.pierre-grimaud.fr/v2/" + defaultLineType + "/" + defaultLineId + "/stations/" + defaultStation + "?destination=" + defaultDestination);
+
+		//TODO: make function to construct url
+	} 
+	catch (e) {
+		console.error(e.message);
 	}
 })
