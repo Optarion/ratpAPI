@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded',function(){
 			catch (e) {
 				console.error(e.message);
 				if(e.name == 'connectionError') {
-					document.querySelector(".error").innerHTML = 'Un problème technique empèche d\'obtenir les horaires désirés';
+					document.querySelector(".error").css("display", "block").innerHTML = 'Un problème technique empèche d\'obtenir les horaires désirés';
 				}
 			}
 		};
