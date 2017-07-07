@@ -27,10 +27,10 @@ try {
 
 						document.getElementById("nextSchedule").innerHTML = schedules[0]["message"];
 						document.getElementById("otherSchedule").innerHTML += lineType + " in " + schedules[1]["message"];
+					} else {
+						throw new ConnectionError("The API server seems offline or you made a bad request");
 					}
-				} else {
-					throw new ConnectionError("The API server seems offline or you made a bad request");
-				}
+				} 
 			};
 
 			xmlhttp.open("GET", url, true);
