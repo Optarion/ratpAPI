@@ -13,23 +13,20 @@ document.addEventListener('DOMContentLoaded',function(){
 
 		xmlhttp.onreadystatechange = function() {
 			try{
-				if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
-					if (xmlhttp.status == 200) {
-						var data = JSON.parse(xmlhttp.response),
-							response = data.response,
-							responseInfo = response.informations,
-							lineId = responseInfo.line,
-							lineType = capitalizeWords(responseInfo.type), //TODO : Find why function doesn't work
-							station = responseInfo.station.name,
-							schedules = response.schedules,
-							schedulesArray = Object.keys(schedules).map(function(k) { return schedules[k]; });
+				if (xmlhttp.readyState === XMLHttpRequest.DONE ) {
+					if (xmlhttp.status === 200) {
+						var data = JSON.parse(xmlhttp.response);
+							lineId = defaultLineId,
+							lineType = capitalizeWords(defaultLineType), //TODO : Find why function doesn't work
+							station = defaultStationSlug,
+							schedules = data.result.schedules;
 						
 						//ADD {line}/{station} as breadcrumb
 						document.querySelector(".breadcrumb-station").innerHTML = station;
 						document.querySelector(".breadcrumb-busline").innerHTML = lineType + ' ' + lineId;
 
-						document.getElementById("nextSchedule").innerHTML = schedulesArray[0]["message"];
-						document.getElementById("otherSchedule").innerHTML += lineType + " in " + schedulesArray[1]["message"];
+						document.getElementById("nextSchedule").innerHTML = schedules[0]["message"];
+						document.getElementById("otherSchedule").innerHTML += lineType + " in " + schedules[1]["message"];
 					}
 					else {
 						throw new connectionError("The API server seems offline or you made a bad request");
@@ -37,7 +34,6 @@ document.addEventListener('DOMContentLoaded',function(){
 				}
 			}
 			catch (e) {
-				console.error(e.message);
 				if(e.name == 'connectionError') {
 					document.querySelector(".error").css("display", "block").innerHTML = 'Un problème technique empèche d\'obtenir les horaires désirés';
 				}
@@ -51,9 +47,9 @@ document.addEventListener('DOMContentLoaded',function(){
 	try{
 		var defaultLineType = "bus",
 			defaultLineId = "83",
-			defaultStation = "4008",
-			defaultDestination = "248",
-			defaultURL = buildURL(defaultLineType, defaultLineId, defaultStation,defaultDestination);
+			defaultStationSlug = "ponscarme",
+			defaultWay = "A",
+			defaultURL = buildURL(defaultLineType, defaultLineId, defaultStationSlug, defaultWay);
 
 		//Default display
 		loadXMLDoc(defaultURL);
