@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded',function(){
 
-	function connectionError(message) {
-		this.name = 'connectionError';
+	function ConnectionError(message) {
+		this.name = 'ConnectionError';
 		this.message = message || 'The API server seems offline or you made a bad request';
 		this.stack = (new Error()).stack;
 	}
-	connectionError.prototype = Object.create(Error.prototype);
-	connectionError.prototype.constructor = connectionError;
+	ConnectionError.prototype = Object.create(Error.prototype);
+	ConnectionError.prototype.constructor = ConnectionError;
 
 	function getSchedules(url) {
 		var xmlhttp = new XMLHttpRequest();
@@ -29,12 +29,12 @@ document.addEventListener('DOMContentLoaded',function(){
 						document.getElementById("otherSchedule").innerHTML += lineType + " in " + schedules[1]["message"];
 					}
 					else {
-						throw new connectionError("The API server seems offline or you made a bad request");
+						throw new ConnectionError("The API server seems offline or you made a bad request");
 					}
 				}
 			}
 			catch (e) {
-				if(e.name == 'connectionError') {
+				if(e.name == 'ConnectionError') {
 					document.querySelector(".error").css("display", "block").innerHTML = 'Un problème technique empèche d\'obtenir les horaires désirés';
 				}
 			}
