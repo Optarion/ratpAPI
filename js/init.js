@@ -1,18 +1,18 @@
-document.addEventListener('DOMContentLoaded',function(){
+try {
+	document.addEventListener('DOMContentLoaded',function(){
 
-	function ConnectionError(message) {
-		this.name = 'ConnectionError';
-		this.message = message || 'The API server seems offline or you made a bad request';
-		this.stack = (new Error()).stack;
-	}
-	ConnectionError.prototype = Object.create(Error.prototype);
-	ConnectionError.prototype.constructor = ConnectionError;
+		function ConnectionError(message) {
+			this.name = 'ConnectionError';
+			this.message = message || 'The API server seems offline or you made a bad request';
+			this.stack = (new Error()).stack;
+		}
+		ConnectionError.prototype = Object.create(Error.prototype);
+		ConnectionError.prototype.constructor = ConnectionError;
 
-	function getSchedules(url) {
-		var xmlhttp = new XMLHttpRequest();
+		function getSchedules(url) {
+			var xmlhttp = new XMLHttpRequest();
 
-		xmlhttp.onreadystatechange = function() {
-			try{
+			xmlhttp.onreadystatechange = function() {
 				if (xmlhttp.readyState === XMLHttpRequest.DONE ) {
 					if (xmlhttp.status === 200) {
 						var data = JSON.parse(xmlhttp.response);
@@ -28,23 +28,15 @@ document.addEventListener('DOMContentLoaded',function(){
 						document.getElementById("nextSchedule").innerHTML = schedules[0]["message"];
 						document.getElementById("otherSchedule").innerHTML += lineType + " in " + schedules[1]["message"];
 					}
-					else {
-						throw new ConnectionError("The API server seems offline or you made a bad request");
-					}
+				} else {
+					throw new ConnectionError("The API server seems offline or you made a bad request");
 				}
-			}
-			catch (e) {
-				if(e.name == 'ConnectionError') {
-					document.querySelector(".error").css("display", "block").innerHTML = 'Un problème technique empèche d\'obtenir les horaires désirés';
-				}
-			}
-		};
+			};
 
-		xmlhttp.open("GET", url, true);
-		xmlhttp.send();
-	}
+			xmlhttp.open("GET", url, true);
+			xmlhttp.send();
+		}
 
-	try{
 		var defaultLineType = "bus",
 			defaultLineId = "83",
 			defaultStationSlug = "ponscarme",
@@ -53,9 +45,9 @@ document.addEventListener('DOMContentLoaded',function(){
 
 		//Default display
 		getSchedules(defaultURL);
-
-	} 
-	catch (e) {
-		console.error(e.message);
+	})
+} catch(e) {
+	if(e.name == 'ConnectionError') {
+		document.querySelector(".error").css("display", "block").innerHTML = 'Un problème technique empèche d\'obtenir les horaires désirés';
 	}
-})
+}
