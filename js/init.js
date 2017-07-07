@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded',function(){
 	connectionError.prototype = Object.create(Error.prototype);
 	connectionError.prototype.constructor = connectionError;
 
-	function loadXMLDoc(url) {
+	function getSchedules(url) {
 		var xmlhttp = new XMLHttpRequest();
 
 		xmlhttp.onreadystatechange = function() {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded',function(){
 			defaultURL = buildURL(defaultLineType, defaultLineId, defaultStationSlug, defaultWay);
 
 		//Default display
-		loadXMLDoc(defaultURL);
+		getSchedules(defaultURL);
 
 	} 
 	catch (e) {
