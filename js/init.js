@@ -1,3 +1,5 @@
+// TODO: WORK ON SYNC/ASYN ERROR HANDLING
+
 try {
 	document.addEventListener('DOMContentLoaded',function(){
 
