@@ -8,26 +8,18 @@ function capitalizeWords(string) {
  * @param {String} lineId
  * @param {String} stationSlug
  * @param {String} lineWay
- * @return {String} buildedURL
+ * @return {String} : The builded URL
 */
 function buildURL(lineType, lineId, stationSlug, lineWay) {
-	var buildedURL = "";
-
-	var args = [...arguments], //Create a new array from arguments 'special object'
-		argsAreOk = true; 
+	var baseURL = "https://api-ratp.pierre-grimaud.fr/v3/schedules";
+	var args = [...arguments]; //Create a new array from arguments 'special object' 
 
 	args.forEach(function(element){
 		if(typeof element != "string" || !element.length){
-			throw new TypeError("buildURL : argument " + args.indexOf(element) + " must be a non empty string");
-			argsAreOk = false;
+			throw new TypeError("buildURL : argument " + element + " must be a non empty string");
 		}
 	});
 
-	if(argsAreOk){
-		var baseURL = "https://api-ratp.pierre-grimaud.fr/v3/schedules";
 
-		buildedURL = baseURL + "/" + lineType + "/" + lineId + "/" + stationSlug + "/" + lineWay;
-	}
-
-	return buildedURL;
+	return baseURL + "/" + lineType + "/" + lineId + "/" + stationSlug + "/" + lineWay;
 }
